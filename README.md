@@ -13,7 +13,7 @@ The user interacts with the agent using natural language. The agent manages the 
 │   ├── projects.done.json
 │   └── tasks.done.json
 ├── plan.json
-├── planning.py
+├── plan.py
 ├── profile.md
 ├── projects.json
 ├── schema
