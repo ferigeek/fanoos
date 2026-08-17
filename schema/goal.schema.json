@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "goals.schema.json",
+  "title": "Goals",
+  "description": "Schema for the collection of active goals.",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/goal"
+  },
+  "$defs": {
+    "goal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "description",
+        "priority",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^goal-[a-z0-9-]+$",
+          "description": "Unique and stable identifier of the goal."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Short name of the goal."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Clear description of the desired outcome."
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "paused"
+          ]
+        },
+        "deadline": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "success_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

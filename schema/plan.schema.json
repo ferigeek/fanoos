@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "plan.schema.json",
+  "title": "Daily Plan",
+  "description": "Schema for the current daily planning document.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "date",
+    "objective",
+    "task_ids"
+  ],
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date for which the plan applies."
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The main objective for the day."
+    },
+    "task_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^task-[a-z0-9-]+$"
+      },
+      "description": "IDs of tasks selected for the day's plan, in their intended execution order."
+    },
+    "schedule": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/schedule_item"
+      },
+      "description": "Optional planned schedule for the day's tasks."
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Additional short-term notes relevant to the plan."
+    }
+  },
+  "$defs": {
+    "schedule_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "start"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^task-[a-z0-9-]+$",
+          "description": "ID of the task being scheduled."
+        },
+        "start": {
+          "type": "string",
+          "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$",
+          "description": "Planned starting time in local time."
+        },
+        "end": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$",
+          "description": "Optional planned ending time in local time."
+        }
+      }
+    }
+  }
+}

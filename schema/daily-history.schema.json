@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "daily-history.schema.json",
+  "title": "Daily History",
+  "description": "Schema for a record of what actually happened during a day.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "date",
+    "planned_task_ids",
+    "completed_task_ids",
+    "notes"
+  ],
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date on which the recorded activity occurred."
+    },
+    "planned_task_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^task-[a-z0-9-]+$"
+      },
+      "description": "Tasks that were included in the plan for this day."
+    },
+    "completed_task_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^task-[a-z0-9-]+$"
+      },
+      "description": "Tasks that were actually completed during this day."
+    },
+    "cancelled_task_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^task-[a-z0-9-]+$"
+      },
+      "description": "Tasks that were cancelled during this day."
+    },
+    "completed_project_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^project-[a-z0-9-]+$"
+      },
+      "description": "Projects completed during this day."
+    },
+    "completed_goal_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^goal-[a-z0-9-]+$"
+      },
+      "description": "Goals completed during this day."
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Important observations, decisions, blockers, or other information from the day."
+    }
+  }
+}

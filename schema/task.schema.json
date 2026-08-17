@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "tasks.schema.json",
+  "title": "Tasks",
+  "description": "Schema for the collection of active tasks.",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/task"
+  },
+  "$defs": {
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "priority",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^task-[a-z0-9-]+$",
+          "description": "Unique and stable identifier of the task."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A concrete and actionable description of the work."
+        },
+        "goal_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^goal-[a-z0-9-]+$"
+          },
+          "description": "IDs of goals that this task contributes to."
+        },
+        "project_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "pattern": "^project-[a-z0-9-]+$",
+          "description": "ID of the project this task belongs to, when applicable."
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "todo",
+            "in_progress",
+            "blocked"
+          ]
+        },
+        "estimate_minutes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "description": "Estimated amount of focused work required, in minutes."
+        },
+        "due": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date",
+          "description": "Date by which the task should be completed, when a real deadline exists."
+        },
+        "scheduled": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date",
+          "description": "Date on which the task is planned to be worked on."
+        },
+        "dependency_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^task-[a-z0-9-]+$"
+          },
+          "description": "IDs of tasks that must be completed before this task can be performed."
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Additional information relevant to completing the task."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

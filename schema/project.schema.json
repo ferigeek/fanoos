@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "projects.schema.json",
+  "title": "Projects",
+  "description": "Schema for the collection of active projects.",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/project"
+  },
+  "$defs": {
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "description",
+        "goal_ids",
+        "priority",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^project-[a-z0-9-]+$",
+          "description": "Unique and stable identifier of the project."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Short name of the project."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Description of the result the project is intended to produce."
+        },
+        "goal_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^goal-[a-z0-9-]+$"
+          },
+          "description": "IDs of the goals that this project contributes to."
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "paused"
+          ]
+        },
+        "deadline": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "success_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "next_action": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "description": "The next concrete action needed to advance the project."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

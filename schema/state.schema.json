@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "state.schema.json",
+  "title": "Planning State",
+  "description": "Current snapshot of the planning system.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "current_focus",
+    "active_goal_ids",
+    "active_project_ids",
+    "current_task_ids",
+    "blockers",
+    "notes",
+    "updated_at"
+  ],
+  "properties": {
+    "current_focus": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "description": "The main thing currently receiving attention."
+    },
+    "active_goal_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^goal-[a-z0-9-]+$"
+      },
+      "description": "IDs of goals currently relevant to the user's planning."
+    },
+    "active_project_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^project-[a-z0-9-]+$"
+      },
+      "description": "IDs of projects currently relevant to the user's planning."
+    },
+    "current_task_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^task-[a-z0-9-]+$"
+      },
+      "description": "IDs of tasks currently being worked on or otherwise immediately relevant."
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Current obstacles preventing or slowing progress."
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Short-term information that is important for understanding the current situation."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the current state was last updated."
+    }
+  }
+}
