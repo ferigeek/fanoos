@@ -88,3 +88,33 @@ When a goal becomes completed:
 - add it to goals.done.json
 - preserve its ID and relevant metadata
 
+
+# CLI (plan.py)
+
+A Python script `plan.py` manages all planning files. Use `python3 plan.py <command> [options]`.
+
+## Commands
+
+| Command | Subcommands | Purpose |
+|---------|-------------|---------|
+| `goals` | `list`, `get`, `add`, `update`, `done` | Manage active goals and archive completed ones |
+| `projects` | `list`, `get`, `add`, `update`, `done` | Manage active projects and archive completed ones |
+| `tasks` | `list`, `get`, `add`, `update`, `done` | Manage active tasks and archive completed ones |
+| `plan` | `show`, `set`, `clear` | Set the daily plan (objective, task_ids, schedule, notes) |
+| `state` | `show`, `set`, `reset` | Update the current state snapshot |
+| `history` | `show`, `record` | View or record daily activity (writes to `history/daily/YYYY/MM/DD.json`) |
+| `validate` | — | Validate all JSON files parse correctly |
+
+## Lifecycle commands
+
+Use `done` to archive entities. It accepts one or more IDs:
+```
+python3 plan.py tasks done task-id-1 task-id-2
+python3 plan.py projects done project-id
+python3 plan.py goals done goal-id
+```
+This removes the entity from its active file, adds it to the corresponding `history/*.done.json`, and preserves its ID and metadata.
+
+## Validation
+
+The script validates ID formats, priority enums, status enums, and cross-references (e.g., `goal_ids` must point to existing goals). History recording accepts IDs that may already be archived. Run `python3 plan.py validate` to check all JSON files.
