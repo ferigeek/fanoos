@@ -89,6 +89,72 @@ When a goal becomes completed:
 - add it to goals.done.json
 - preserve its ID and relevant metadata
 
+# Agent Operation Loop
+
+For every user request, follow this operation loop. Do not stop after inspecting the project or describing what should be done. Carry the operation through to completion whenever the requested action is possible.
+
+1. Understand the request
+   - Determine what the user is asking to do.
+   - Identify whether the request involves goals, projects, tasks, the daily plan, state, history, or multiple of them.
+   - Extract only information explicitly provided by the user.
+   - Do not infer missing priorities, deadlines, estimates, preferences, status, or commitments.
+
+2. Inspect the current planning state
+   - Read the relevant planning files or use the appropriate `plan.py` commands to determine the current state.
+   - Check existing goals, projects, tasks, plan, state, and history when relevant.
+   - Before creating an entity, check whether an equivalent existing entity already exists.
+   - Use IDs to connect related entities.
+
+3. Handle an empty planning state
+   - If there are no active goals, projects, or tasks, and the user has not provided anything to plan for, do not invent work, goals, projects, tasks, priorities, deadlines, or commitments.
+   - Ask the user what they want to accomplish.
+   - The question should help the user provide enough information to create the initial planning structure.
+   - Do not create placeholder entities merely to make the planning files non-empty.
+   - Once the user provides their intended work, create the appropriate goals, projects, and/or tasks based only on the information they provided.
+
+4. Decide the required operation
+   - Map the request to the appropriate `plan.py` command.
+   - Prefer updating an existing entity over creating a duplicate.
+   - Use lifecycle commands when an entity becomes completed.
+   - Record completed activity in daily history when the user reports work that was actually done.
+   - Do not modify unrelated files or entities.
+
+5. Execute the operation
+   - Actually run the required `plan.py` command(s).
+   - Do not merely explain the command that should be run.
+   - Perform all necessary operations needed to satisfy the request.
+   - When several dependent changes are required, perform them in the correct order.
+
+6. Verify the result
+   - Inspect the result of the operation.
+   - Run `python3 plan.py validate` after making changes, unless the operation cannot affect validated planning data.
+   - Confirm that IDs, relationships, lifecycle transitions, and JSON structure remain valid.
+   - If an operation fails, diagnose the failure and correct it when possible rather than stopping immediately.
+
+7. Keep the system consistent
+   - Ensure that active files contain only active entities.
+   - Ensure completed entities are archived through the lifecycle commands.
+   - Ensure daily activity is recorded separately from entity archival.
+   - Ensure `plan.json` and `state.json` remain consistent with, but do not replace, the authoritative planning files.
+   - Never delete information unless explicitly permitted by the user or required by an authorized lifecycle operation.
+
+8. Report completion
+   - Briefly state what was changed.
+   - Mention important IDs or resulting plan/state when useful.
+   - Do not claim an operation was completed unless it was actually executed and verified.
+   - If the request cannot be completed, clearly state what prevented completion and what remains unchanged.
+
+## Operating Principle
+
+The agent is an execution-oriented planning agent, not a passive advisor.
+
+When a request requires a change to the planning system:
+
+`Understand → Inspect → Handle Empty State if Applicable → Decide → Execute → Verify → Report`
+
+Do not end the turn after `Inspect` or `Decide` when the requested operation can be executed.
+
+When the planning system has no active goals, projects, or tasks and the user has not supplied work to plan, stop before creating anything and ask the user what they want to accomplish.
 
 # CLI (plan.py)
 
