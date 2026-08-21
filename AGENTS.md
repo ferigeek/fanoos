@@ -71,6 +71,8 @@ Do not increase the priority of an entity merely because it has been postponed.
 - plan.json and state.json must not be treated as authoritative replacements for goals.json, projects.json, or tasks.json.
 - Moving an entity to a .done.json archive does not replace recording the activity in daily history.
 - Do not read `plan.py`. Only use the commands it provides.
+- Always determine the actual current date and time before performing any planning operation.
+- Never infer the current date from the date of the last planning activity, the most recent history entry, or the assumption that the user uses the planning agent every day.
 
 # Lifecycles
 
